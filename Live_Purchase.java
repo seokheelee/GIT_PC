@@ -141,32 +141,29 @@ public class Live_Purchase {
 			wait = new WebDriverWait(driver, waitTime);
 			wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//*[@id='cjo_wrap']/div[2]/div/div/div[2]/ul/li[1]/a/span")));
 
-			// 2-1. 팝업창이 뜰경우 팝업창 다시 보지 않기 선택
+/*			// 2-1. 팝업창이 뜰경우 팝업창 다시 보지 않기 선택
 			if(window_num > 0){
-			Set<String> allWindows1 = driver.getWindowHandles();
-		    for(String curWindow1 : allWindows1){
-		        driver.switchTo().window(curWindow1);
-		    }
-	  		Point hoverItem = driver.findElement(By.xpath(".//*[@id='pClose']")).getLocation();
-	  		((JavascriptExecutor)driver).executeScript("window.scrollBy(0,"+(hoverItem.getY())+");");
-		  	System.out.println("앞으로 이 창을 열지 않음 버튼으로 이동");
-		  	
-		  	Thread.sleep(3000);
-		  			  	
-		    //앞으로 이 창을 열지 않음 버튼 클릭
-		  	driver.findElement(By.xpath(".//*[@id='pClose']")).click();
-		  	System.out.println("앞으로 이 창을 열지 않음 버튼 선택");
-		  	
-		    Thread.sleep(3000);
-
-		    Set<String> allWindows0 = driver.getWindowHandles();
-		    for(String curWindow0 : allWindows0){
-		        driver.switchTo().window(curWindow0);
-		    }
-		    
-		    Thread.sleep(3000);
-			}
+				Set<String> allWindows1 = driver.getWindowHandles();
+				for(String curWindow1 : allWindows1){
+					driver.switchTo().window(curWindow1);}
+				Point hoverItem = driver.findElement(By.xpath(".//*[@id='pClose']")).getLocation();
+				((JavascriptExecutor)driver).executeScript("window.scrollBy(0,"+(hoverItem.getY())+");");
+				System.out.println("앞으로 이 창을 열지 않음 버튼으로 이동");
+				Thread.sleep(3000);
+				//앞으로 이 창을 열지 않음 버튼 클릭
+				driver.findElement(By.xpath(".//*[@id='pClose']")).click();
+				System.out.println("앞으로 이 창을 열지 않음 버튼 선택");
+				Thread.sleep(3000);
+				
+				Set<String> allWindows0 = driver.getWindowHandles();
+				for(String curWindow0 : allWindows0){
+					driver.switchTo().window(curWindow0);}
+				Thread.sleep(3000);}
 			
+			else{
+				System.out.println("팝업창 없음");
+			}
+			*/
 			driver.findElement(By.xpath(".//*[@id='cjo_wrap']/div[2]/div/div/div[2]/ul/li[1]/a/span")).click();
 
 			//// 2-2. 로그인 창이 뜰 때까지 기다림. 창이 늦게 떠서 에러로 리턴된 경우가 있었음.

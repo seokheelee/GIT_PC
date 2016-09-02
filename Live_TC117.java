@@ -128,29 +128,6 @@ public class Live_TC117 {
 			wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//*[@id='cjo_wrap']/div[2]/div/div/div[2]/ul/li[3]/a/span")));
 			System.out.println("마이존 기다림");
 			
-			if(window_num > 0){
-			Set<String> allWindows1 = driver.getWindowHandles();
-		    for(String curWindow1 : allWindows1){
-		        driver.switchTo().window(curWindow1);
-		    }
-	  		Point hoverItem = driver.findElement(By.xpath(".//*[@id='pClose']")).getLocation();
-	  		((JavascriptExecutor)driver).executeScript("window.scrollBy(0,"+(hoverItem.getY())+");");
-		  	System.out.println("테스트");
-		  	
-		  	Thread.sleep(3000);
-		  			  	
-		    //driver.close();
-		  	driver.findElement(By.xpath(".//*[@id='pClose']")).click();
-		    Thread.sleep(3000);
-
-		    Set<String> allWindows0 = driver.getWindowHandles();
-		    for(String curWindow0 : allWindows0){
-		        driver.switchTo().window(curWindow0);
-		    }
-		    
-		    Thread.sleep(3000);
-			}
-			
 			// 마이존 클릭
 			driver.findElement(By.xpath(".//*[@id='cjo_wrap']/div[2]/div/div/div[2]/ul/li[3]/a/span")).click();
 			System.out.println("마이존 클릭");
