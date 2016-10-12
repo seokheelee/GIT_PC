@@ -177,30 +177,38 @@ public class Live_TC240 {
 			driver.findElement(By.xpath(".//*[@id='sub2_right']/form/div/p[3]/a/img")).click();
 			System.out.println("비밀번호 입력");
 			
+			Thread.sleep(3000);
+			
 			// 개인정보 변경 페이지 이동 하단 버튼 뜰 때까지 기다림.
 			wait = new WebDriverWait(driver, waitTime);
 			wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//*[@id='sub2_right']/div/form/p/a[1]/img")));
 			System.out.println("개인정보 변경 페이지 이동 하단 버튼 뜰 때까지 기다림");
 			
 			// 자택전화 미입력 체크 - 1
-			driver.findElement(By.xpath(".//*[@id='sub2_right']/div/form/div[2]/table/tbody/tr[4]/td/input[1]")).clear();;
+			driver.findElement(By.xpath(".//*[@id='sub2_right']/div/form/div[2]/table/tbody/tr[3]/td/input[1]")).clear();;
 			// 개인정보변경 클릭
 			driver.findElement(By.xpath(".//*[@id='sub2_right']/div/form/p/a[1]/img")).click(); 
 			System.out.println("자택전화 미입력 체크");
 			
-			// "자택 전화번호를 입력해 주세요!" 얼럿 메시지 확인
-			assertTrue(closeAlertAndGetItsText().matches("자택 전화번호를 입력해 주세요!"));
+			Thread.sleep(3000);
+			
+			// "전화번호를 입력해 주세요!" 얼럿 메시지 확인
+			assertTrue(closeAlertAndGetItsText().matches("전화번호를 입력해 주세요!"));
 			if (acceptNextAlert) {
-				driver.findElement(By.xpath(".//*[@id='sub2_right']/div/form/div[2]/table/tbody/tr[4]/td/input[1]")).sendKeys("1234");
+				driver.findElement(By.xpath(".//*[@id='sub2_right']/div/form/div[2]/table/tbody/tr[3]/td/input[1]")).sendKeys("1234");
 			} else {
 				assertTrue(false);
 			}
 			
+			Thread.sleep(3000);
+			
 			// 이메일주소 미입력 체크 - 2
-			driver.findElement(By.xpath(".//*[@id='sub2_right']/div/form/div[2]/table/tbody/tr[8]/td/input")).clear();;
+			driver.findElement(By.xpath(".//*[@id='sub2_right']/div/form/div[2]/table/tbody/tr[5]/td/input")).clear();;
 			// 개인정보변경 클릭
 			driver.findElement(By.xpath(".//*[@id='sub2_right']/div/form/p/a[1]/img")).click(); 
 			System.out.println("이메일주소 미입력 체크");
+			
+			Thread.sleep(3000);
 			
 			// "이메일을 입력해 주세요!" 얼럿 메시지 확인
 			assertTrue(closeAlertAndGetItsText().matches("이메일을 입력해 주세요!"));
