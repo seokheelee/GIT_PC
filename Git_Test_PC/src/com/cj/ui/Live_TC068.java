@@ -4,16 +4,11 @@ import static org.junit.Assert.*;
 import java.util.Set;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Point;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -23,71 +18,56 @@ import com.cj.util.SmartProperties;
 /**
  * 
  * @author SeokheeLee 
- * Date : 2016-05-09 
+ * Date : 2016-11-07 
  * Subject : CJ Mall 운영 
  * Name : TC_068
  * Scenario : 비로그인 > 바로구매 버튼 기능 확인
- * Assertion : "수량/옵션 수정하기" 텍스트 확인 
+ * Assertion : "로그인" 텍스트 확인 
+ * Update : 불필요한 코드의 제거 (2016.11.07)
  *
  */
 
 public class Live_TC068 {
 	private WebDriver driver;
 	private String baseUrl;
-	private boolean acceptNextAlert = true;
 	private StringBuffer verificationErrors = new StringBuffer();
 	
 	private String userId = null;
 	private String passwd = null;
 	private String browser = null;
 	private long waitTime = 50;
-	private String videoPath = null;
 	private String testpasswd = null;
 	private String word_tc014_01 = null;
 	private String word_tc051_01 = null;
 	private String word_tc051_02 = null;
-	private String word_tc052_01 = null;
 	private String Word_tc069_01 = null;
-	private String word_tc098_01 = null;
-	private String word_tc098_02 = null;
-		
 
 	@Before
 	public void setUp() throws Exception {
-		String path = System.getProperty("user.dir"); // current path of project
 		
 		SmartProperties sp = SmartProperties.getInstance();
 		userId = sp.getProperty("ID");
 		passwd = sp.getProperty("PWD");
 		waitTime = Long.parseLong(sp.getProperty("WaitTime"));
-		videoPath = sp.getProperty("VIDEO_LOC");
 		browser = sp.getProperty("Browser");
 		word_tc014_01 = sp.getProperty("Word_TC014_01");
 		word_tc051_01 = sp.getProperty("Word_TC051_01");
 		word_tc051_02 = sp.getProperty("Word_TC051_02");
-		word_tc052_01 = sp.getProperty("Word_TC052_01");
 		Word_tc069_01 = sp.getProperty("Word_TC069_01");
-		word_tc098_01 = sp.getProperty("Word_TC098_01");
-		word_tc098_02 = sp.getProperty("Word_TC098_02");
 		testpasswd = sp.getProperty("TESTPWD");
 
 		if (browser.equalsIgnoreCase("firefox")){
 			driver = new FirefoxDriver();
 			}
 			
-		else {
-			System.setProperty("webdriver.chrome.driver", "c:\\chromedriver.exe");
-			//driver = new ChromeDriver();
-			ChromeOptions options = new ChromeOptions();
-			options.addArguments("--disable-extensions");
-			driver = new ChromeDriver(options);
+		else {driver = new ChromeDriver();
 		}
+
 		sp.list(System.out);
 
 		System.out.println("userId 	= " + userId);
 		System.out.println("passwd 	= " + passwd);
 		System.out.println("waitTime=" + waitTime);
-		System.out.println("videoPath = " + videoPath);
 		System.out.println("word_tc014_01 = " + word_tc014_01);
 		System.out.println("word_tc051_01 = " + word_tc051_01);
 		System.out.println("word_tc051_02 = " + word_tc051_02);
@@ -105,24 +85,6 @@ public class Live_TC068 {
 
 			driver.manage().window().maximize();
 
-		    int window_num = 0;
-		    String mainWindow = driver.getWindowHandle();
-		    System.out.println("main Windows ="+mainWindow);
-
-		    Set<String> handles = driver.getWindowHandles();
-		    window_num = handles.size();
-
-		    System.out.println("Windows Num ="+window_num);
-
-		    for (String handle : handles) {
-		    	System.out.println("windows handles :"+handle);
-		    	if (!handle.equals(mainWindow)){
-		    		driver.switchTo().window(handle);
-		    		System.out.println("Switch Windows");
-		    		break;
-		    		}
-		    	}
-			
 			// 메인 페이지 요청
 			driver.get(baseUrl + "/index_tab1.jsp");
 			System.out.println("메인페이지 요청");
@@ -152,7 +114,7 @@ public class Live_TC068 {
 			System.out.println("검색상품 기다림");
 			
 			// 검색된 상품중 임의의 상품 클릭
-			driver.findElement(By.xpath(".//*[@id='list_wrap']/ul/li[1]/a/span[1]/img")).click(); 
+			driver.findElement(By.xpath(".//*[@id='list_wrap']/ul/li[2]/a/span[1]/img")).click(); 
 			System.out.println("검색된 상품중 임의의 상품 클릭");
 
 			Set<String> allWindows2 = driver.getWindowHandles();
@@ -196,22 +158,6 @@ public class Live_TC068 {
 		String verificationErrorString = verificationErrors.toString();
 		if (!"".equals(verificationErrorString)) {
 			fail(verificationErrorString);
-		}
-	}
-
-	private String closeAlertAndGetItsText() {
-		try {
-			Alert alert = driver.switchTo().alert();
-			String alertText = alert.getText();
-
-			if (acceptNextAlert) {
-				alert.accept();
-			} else {
-				alert.dismiss();
-			}
-			return alertText;
-		} finally {
-			acceptNextAlert = true;
 		}
 	}
 
