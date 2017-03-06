@@ -114,7 +114,7 @@ public class Live_TC068 {
 			System.out.println("검색상품 기다림");
 			
 			// 검색된 상품중 임의의 상품 클릭
-			driver.findElement(By.xpath(".//*[@id='list_wrap']/ul/li[2]/a/span[1]/img")).click(); 
+			driver.findElement(By.xpath(".//*[@id='list_wrap']/ul/li[3]/a/span[1]/img")).click(); 
 			System.out.println("검색된 상품중 임의의 상품 클릭");
 
 			Set<String> allWindows2 = driver.getWindowHandles();
@@ -126,10 +126,15 @@ public class Live_TC068 {
 			wait = new WebDriverWait(driver, waitTime);
 			wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//*[@id='btnBuyNow']")));
 			System.out.println("바로구매 버튼 기다림");
+			
+			Thread.sleep(3000);
+			
 			// 바로구매 버튼 클릭
 			driver.findElement(By.xpath(".//*[@id='btnBuyNow']")).click(); 
 			System.out.println("바로구매 버튼 클릭");
 
+			Thread.sleep(3000);
+			
 			// 로그인 화면 기다림
 			wait = new WebDriverWait(driver, waitTime);
 			wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//*[@id='login_area']/form/h2/img")));
