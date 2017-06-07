@@ -1,7 +1,6 @@
 package com.cj.ui;
 
 
-import java.util.regex.Pattern;
 import java.awt.Dimension;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
@@ -9,7 +8,6 @@ import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.io.File;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.*;
@@ -29,16 +27,12 @@ import static org.monte.media.VideoFormatKeys.CompressorNameKey;
 import static org.monte.media.VideoFormatKeys.DepthKey;
 import static org.monte.media.VideoFormatKeys.ENCODING_AVI_TECHSMITH_SCREEN_CAPTURE;
 import static org.monte.media.VideoFormatKeys.QualityKey;
-import static org.hamcrest.CoreMatchers.*;
 
 import org.openqa.selenium.*;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Point;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.cj.util.SmartProperties;
@@ -46,7 +40,6 @@ import com.cj.util.SmartProperties;
 public class Live_Purchase {
 	private WebDriver driver;
 	private String baseUrl;
-	private boolean acceptNextAlert = true;
 	private StringBuffer verificationErrors = new StringBuffer();
 
 	private ScreenRecorder screenRecorder;
@@ -66,8 +59,6 @@ public class Live_Purchase {
 		waitTime = Long.parseLong(sp.getProperty("WaitTime"));
 		videoPath = sp.getProperty("VIDEO_LOC");
 		browser = sp.getProperty("Browser");
-
-		
 
   	
 		if (browser.equalsIgnoreCase("firefox")){
@@ -102,6 +93,7 @@ public class Live_Purchase {
 	   * History
 	    - 2016-06-21 : 보험상품중 구매하기 버튼이 있는경우 예외처리 추가
 	    - 2016-06-22 : Xpath 변경 및 불필요한 리소스 삭제
+	    - 2016-11-26 : 불필요한 리소스 삭제
 	  **/
 	    
 	
@@ -113,24 +105,6 @@ public class Live_Purchase {
 			
 			WebElement element = null;
 			WebDriverWait wait = null;
-
-		    int window_num = 0;
-		    String mainWindow = driver.getWindowHandle();
-		    System.out.println("main Windows ="+mainWindow);
-
-		    Set<String> handles = driver.getWindowHandles();
-		    window_num = handles.size();
-
-		    System.out.println("Windows Num ="+window_num);
-
-		    for (String handle : handles) {
-		    	System.out.println("windows handles :"+handle);
-		    	if (!handle.equals(mainWindow)){
-		    		driver.switchTo().window(handle);
-		    		System.out.println("Switch Windows");
-		    		break;
-		    		}
-		    	}
 
 			driver.manage().window().maximize();
 
@@ -166,7 +140,7 @@ public class Live_Purchase {
 			*/
 			driver.findElement(By.xpath(".//*[@id='cjo_wrap']/div[2]/div/div/div[2]/ul/li[1]/a/span")).click();
 
-			//// 2-2. 로그인 창이 뜰 때까지 기다림. 창이 늦게 떠서 에러로 리턴된 경우가 있었음.
+			// 2-2. 로그인 창이 뜰 때까지 기다림. 창이 늦게 떠서 에러로 리턴된 경우가 있었음.
 			wait = new WebDriverWait(driver, waitTime);
 			wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//*[@id='mid_1']")));
 
@@ -178,18 +152,18 @@ public class Live_Purchase {
 
 			driver.findElement(By.xpath(".//*[@id='login_area']/form/div/div/div[2]/input")).click();
 
-			//// 3. 로그인이 되고 메인화면이 뜰 때까지 기다림.
+			// 3. 로그인이 되고 메인화면이 뜰 때까지 기다림.
 			wait = new WebDriverWait(driver, waitTime);
 			wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath(".//*[@id='cjo_wrap']/div[2]/div/div/div[2]/ul/li[1]/a/span"), "로그아웃"));
 
-			//// 4. 상단에 생방송 화면 누르기
+			// 4. 상단에 생방송 화면 누르기
 			driver.findElement(By.xpath(".//*[@id='cjo_wrap']/div[1]/div[1]/div/div[3]/div/a/span")).click();
 
-			//// 5. 방송혜택 종료까지 XX:XX:XX 입니다라는 객체 나올때까지 기다림.
+			// 5. 방송혜택 종료까지 XX:XX:XX 입니다라는 객체 나올때까지 기다림.
 			wait = new WebDriverWait(driver, waitTime);
 			wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//*[@id='schedule_top']/div[1]/div[1]")));
 
-			//// 6. 방송상품보기 2개가 존재하는지 검사
+			// 6. 방송상품보기 2개가 존재하는지 검사
 			boolean isExist = existElement(driver, By.xpath(".//*[@id='schedule_top']/div[1]/div[4]/div[2]/a[2]"),
 					"방송상품보기");
 			if (isExist) {
@@ -223,7 +197,7 @@ public class Live_Purchase {
 			wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//*[@id='cjm_container']/div[1]/div[3]")));
 			System.out.println("상품 상세 페이지 뜰 때까지 기다림");
 		
-			//// 8. "매진되었습니다"라는 메시지 있는지 먼저 검사
+			// 8. "매진되었습니다"라는 메시지 있는지 먼저 검사
 			isExist = existElement(driver, By.xpath(".//*[@id='isSoldOut']/div/p/img"), "매진되었습니다라는 메시지");
 			if (isExist) {
 				System.out.println("매진되었기 때문에 구매하기 버튼 누르지 않고 종료.");
@@ -232,7 +206,7 @@ public class Live_Purchase {
 				return;
 			}
 
-			//// 8-1. 본 상품은 상담을 통해 구매가 가능합니다 라며 상담신청 메뉴가 있는 경우가 있음. 그래서 바로구매가 없으면 바로 멈춤
+			// 8-1. 본 상품은 상담을 통해 구매가 가능합니다 라며 상담신청 메뉴가 있는 경우가 있음. 그래서 바로구매가 없으면 바로 멈춤
 			isExist = existElement(driver, By.xpath(".//*[@id='btnBuyNow']"), "바로구매");
 			if (!isExist) {
 				String altName = driver.findElement(By.cssSelector(".buyingWrap1>a>img")).getAttribute("alt");
@@ -244,9 +218,10 @@ public class Live_Purchase {
 			return;
 			}
 
-			//// 9. 수량이 표시되었는지 안되어있는지 검사. 수량 표시가 업는 경우... 화면에 안보일 때 아래 항목은 오면서 Style로 구분함. <li style="display: none;" id="unit_qty_view">
+			// 9. 수량이 표시되었는지 안되어있는지 검사. 수량 표시가 업는 경우... 화면에 안보일 때 아래 항목은 오면서 Style로 구분함. <li style="display: none;" id="unit_qty_view">
 			if (!(driver.findElement((By.id("unit_qty_view"))).isDisplayed())) {
 
+				@SuppressWarnings("rawtypes")
 				List elements = driver.findElements(By.className("detailTit"));
 				System.out.println("List Size = " + elements.size());
 
@@ -274,17 +249,18 @@ public class Live_Purchase {
 			// 수량 표시가 되어 있는 경우는 바로 구배하기 누르면 됨
 			else {
 				System.out.println("수량표시가 되어 있음");
+				@SuppressWarnings("rawtypes")
 				List elements = driver.findElements(By.className("detailTit"));
 				System.out.println("List Size = " + elements.size());
 			}
 			
 			driver.findElement(By.xpath(".//*[@id='btnBuyNow']")).click();
 
-			//// 10. 결제하기 화면이 나올때까지 기다림
+			// 10. 결제하기 화면이 나올때까지 기다림
 			wait = new WebDriverWait(driver, waitTime);
 			wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath(".//*[@id='ORDER_BUTTON']/button"),"결제하기"));
 
-			assertEquals("결제하기", driver.findElement(By.xpath(".//*[@id='ORDER_BUTTON']/button")).getText());
+			assertEquals("결제하기", driver.findElement(By.xpath(".//*[@id='ORDER_BUTTON']/button/span")).getText());
 
 			this.stopRecording();
 		} catch (Exception e) {
@@ -306,38 +282,6 @@ public class Live_Purchase {
 		}
 	}
 
-	private boolean isElementPresent(By by) {
-		try {
-			driver.findElement(by);
-			return true;
-		} catch (NoSuchElementException e) {
-			return false;
-		}
-	}
-
-	private boolean isAlertPresent() {
-		try {
-			driver.switchTo().alert();
-			return true;
-		} catch (NoAlertPresentException e) {
-			return false;
-		}
-	}
-
-	private String closeAlertAndGetItsText() {
-		try {
-			Alert alert = driver.switchTo().alert();
-			String alertText = alert.getText();
-			if (acceptNextAlert) {
-				alert.accept();
-			} else {
-				alert.dismiss();
-			}
-			return alertText;
-		} finally {
-			acceptNextAlert = true;
-		}
-	}
 
 	public void startRecording() throws Exception {
 		File file = new File(videoPath);
@@ -367,10 +311,7 @@ public class Live_Purchase {
 	}
 
 	public boolean existElement(WebDriver wd, By by, String meaning) {
-		boolean ret = false;
-		WebElement element = null;
 		WebDriverWait wait = new WebDriverWait(wd, 2);
-		// wait.ignoring(NoSuchElementException.class);
 
 		try {
 			wait.until(ExpectedConditions.presenceOfElementLocated(by));
